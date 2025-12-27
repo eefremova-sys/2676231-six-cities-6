@@ -2,12 +2,28 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import OffersList from '../OffersList';
 import { OfferType } from '../../mocks/offers';
+import Map from '../Map';
+import { City, Points } from '../../types';
 
 interface MainProps {
   offers: OfferType[];
 }
 
 function Main({ offers }: MainProps): JSX.Element {
+  const amsterdamOffers = offers.filter((offer) => offer.city === 'Amsterdam');
+
+  const amsterdamCity: City = {
+    lat: 52.38333,
+    lng: 4.9,
+  };
+
+  const points: Points = amsterdamOffers.map((offer) => ({
+    lat: offer.location.latitude,
+    lng: offer.location.longitude,
+    title: offer.title,
+  }));
+
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -100,7 +116,11 @@ function Main({ offers }: MainProps): JSX.Element {
               <OffersList offers={offers} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                city={amsterdamCity}
+                points={points}
+                selectedPoint={undefined}
+              />
             </div>
           </div>
         </div>
