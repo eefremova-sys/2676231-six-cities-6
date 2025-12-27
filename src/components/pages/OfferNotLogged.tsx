@@ -43,9 +43,6 @@ const OfferNotLogged = () => (
             <div className="offer__image-wrapper">
               <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio" />
             </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-            </div>
           </div>
         </div>
         <div className="offer__container container">

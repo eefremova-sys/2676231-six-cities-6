@@ -6,48 +6,49 @@ import Enter from '../components/pages/Enter';
 import Fav from '../components/pages/Fav';
 import Offer from '../components/pages/Offer';
 import PrivateRoute from '../components/PrivateRoute';
+import { OfferType } from '../mocks/offers';
 
 interface AppProps {
-    cardsCount: number;
+  offers: OfferType[];
 }
 
-function App({ cardsCount }: AppProps): JSX.Element {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path={AppRoute.Main}
-          element = {
-            <Main cardsCount={cardsCount} />
-          }
-        />
+function App({ offers }: AppProps): JSX.Element {
+return (
+  <BrowserRouter>
+    <Routes>
+      <Route
+        path={AppRoute.Main}
+        element = {
+          <Main offers={offers} />
+        }
+      />
 
-        <Route
-          path={AppRoute.Login}
-          element = {<Enter/>}
-        />
+      <Route
+        path={AppRoute.Login}
+        element = {<Enter/>}
+      />
 
-        <Route
-          path={AppRoute.Favorites}
-          element = {
-            <PrivateRoute authStatus={AuthStatus.NoAuth}>
-              <Fav/>
-            </PrivateRoute>
-          }
-        />
+      <Route
+        path={AppRoute.Favorites}
+        element = {
+          <PrivateRoute authStatus={AuthStatus.NoAuth}>
+            <Fav offers={offers} />
+          </PrivateRoute>
+        }
+      />
 
-        <Route
-          path={AppRoute.Offer}
-          element = {<Offer/>}
-        />
+      <Route
+        path={AppRoute.Offer}
+        element = {<Offer offers={offers} />}
+      />
 
-        <Route
-          path="*"
-          element = {<Error/>}
-        />
-      </Routes>
-    </BrowserRouter>
-  );
+      <Route
+        path="*"
+        element = {<Error/>}
+      />
+    </Routes>
+  </BrowserRouter>
+);
 }
 
 export default App;
