@@ -1,4 +1,4 @@
-import { OfferType } from '../mocks/offers';
+import { OfferType } from '../offer';
 import { Link } from 'react-router-dom';
 
 interface FavoriteCardProps {

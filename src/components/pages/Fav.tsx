@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppRoute } from '../../const';
-import { OfferType } from '../../mocks/offers';
+import { OfferType } from '../../offer';
 import FavoriteCard from '../FavCard';
 import { RootState } from '../../store';
 
@@ -11,10 +11,11 @@ function Fav(): JSX.Element {
   const favoriteOffers = allOffers.filter((offer) => offer.isFavorite);
 
   const groupedByCity = favoriteOffers.reduce((acc, offer) => {
-    if (!acc[offer.city]) {
-      acc[offer.city] = [];
+    const cityName = offer.city.name;
+    if (!acc[cityName]) {
+      acc[cityName] = [];
     }
-    acc[offer.city].push(offer);
+    acc[cityName].push(offer);
     return acc;
   }, {} as Record<string, OfferType[]>);
 
