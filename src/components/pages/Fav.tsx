@@ -1,23 +1,26 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 import { AppRoute } from '../../const';
 import { OfferType } from '../../offer';
 import FavoriteCard from '../FavCard';
-import { RootState } from '../../store';
+import { getAllOffers } from '../../store/selectors';
 
 
 function Fav(): JSX.Element {
-  const allOffers = useSelector((state: RootState) => state.offers);
-  const favoriteOffers = allOffers.filter((offer) => offer.isFavorite);
+  const allOffers = useSelector(getAllOffers);
 
-  const groupedByCity = favoriteOffers.reduce((acc, offer) => {
-    const cityName = offer.city.name;
-    if (!acc[cityName]) {
-      acc[cityName] = [];
-    }
-    acc[cityName].push(offer);
-    return acc;
-  }, {} as Record<string, OfferType[]>);
+  const groupedByCity = useMemo(() => {
+    const favoriteOffers = allOffers.filter((offer) => offer.isFavorite);
+    return favoriteOffers.reduce((acc, offer) => {
+      const cityName = offer.city.name;
+      if (!acc[cityName]) {
+        acc[cityName] = [];
+      }
+      acc[cityName].push(offer);
+      return acc;
+    }, {} as Record<string, OfferType[]>);
+  }, [allOffers]);
 
   return (
     <div className="page">

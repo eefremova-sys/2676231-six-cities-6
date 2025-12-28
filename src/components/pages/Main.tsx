@@ -1,60 +1,68 @@
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppRoute } from '../../const';
 import OffersList from '../OffersList';
 import Map from '../Map';
 import Spinner from '../Spinner';
 import ErrorMessage from '../ErrorMessage';
-import { City, Points } from '../../types';
-import { RootState, AppDispatch } from '../../store';
-import { changeCity, fetchOffersAction, logout } from '../../store/action';
-import { AuthStatus } from '../../const';
 import CitiesList from '../CitiesList';
+import { City, Points } from '../../types';
+import { AppDispatch } from '../../store';
+import { changeCity, fetchOffersAction, logoutAction } from '../../store/action';
+import { AuthStatus } from '../../const';
+import {
+  getSelectedCity,
+  getFilteredOffers,
+  getOffersLoadingStatus,
+  getOffersError,
+  getAuthorizationStatus,
+  getUser,
+  getFavoriteOffersCount,
+} from '../../store/selectors';
+import { OfferType } from '../../offer';
 
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 function Main(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const selectedCity = useSelector((state: RootState) => state.city);
-  const allOffers = useSelector((state: RootState) => state.offers);
-  const isOffersDataLoading = useSelector((state: RootState) => state.isOffersDataLoading);
-  const offersDataError = useSelector((state: RootState) => state.offersDataError);
-  const authStatus = useSelector((state: RootState) => state.authStatus);
-  const user = useSelector((state: RootState) => state.user);
+  const selectedCity = useSelector(getSelectedCity);
+  const filteredOffers = useSelector(getFilteredOffers);
+  const isOffersDataLoading = useSelector(getOffersLoadingStatus);
+  const offersDataError = useSelector(getOffersError);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const user = useSelector(getUser);
+  const favoriteOffersCount = useSelector(getFavoriteOffersCount);
 
-  const filteredOffers = allOffers.filter((offer) => offer.city.name === selectedCity);
-
-  const cityCoordinates: City = filteredOffers[0]
+  const cityCoordinates: City = useMemo(() => filteredOffers[0]
     ? {
       lat: filteredOffers[0].city.location.latitude,
       lng: filteredOffers[0].city.location.longitude,
       zoom: filteredOffers[0].city.location.zoom,
     }
     : {
-      // координаты по умолчанию
       lat: 52.38333,
       lng: 4.9,
-      zoom: 15,
-    };
+      zoom: 10,
+    }, [filteredOffers]);
 
-  const points: Points = filteredOffers.map((offer) => ({
+  const points: Points = useMemo(() => filteredOffers.map((offer: OfferType) => ({
     lat: offer.location.latitude,
     lng: offer.location.longitude,
     title: offer.title,
-  }));
+  })), [filteredOffers]);
 
   useEffect(() => {
     dispatch(fetchOffersAction());
   }, [dispatch]);
 
-  const handleCityChange = (city: string) => {
+  const handleCityChange = useCallback((city: string) => {
     dispatch(changeCity(city));
-  };
+  }, [dispatch]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
+  const handleLogout = useCallback(() => {
+    dispatch(logoutAction());
+  }, [dispatch]);
 
   return (
     <div className="page page--gray page--main">
@@ -68,7 +76,7 @@ function Main(): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                {authStatus === AuthStatus.Auth && user ? (
+                {authorizationStatus === AuthStatus.Auth && user ? (
                   <>
                     <li className="header__nav-item user">
                       <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
@@ -76,7 +84,7 @@ function Main(): JSX.Element {
                           <img className="header__avatar user__avatar" src={user.avatarUrl} alt={user.name} width="20" height="20" />
                         </div>
                         <span className="header__user-name user__name">{user.email}</span>
-                        <span className="header__favorite-count">{allOffers.filter((offer) => offer.isFavorite).length}</span>
+                        <span className="header__favorite-count">{favoriteOffersCount}</span>
                       </Link>
                     </li>
                     <li className="header__nav-item">
@@ -119,7 +127,6 @@ function Main(): JSX.Element {
                 <Spinner />
               )}
               {!offersDataError && !isOffersDataLoading && (
-
                 <>
                   <b className="places__found">
                     {filteredOffers.length} places to stay in {selectedCity}
