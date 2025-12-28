@@ -64,3 +64,6 @@ export const logoutAction = () => (dispatch: AppDispatch) => {
   localStorage.removeItem(TOKEN_KEY);
   dispatch(logout());
 };
+
+export const updateOfferFavorite = createAction<{ id: string; isFavorite: boolean }>('offers/updateOfferFavorite');
+export const updateOffer = createAction<OfferType>('offers/updateOffer');
