@@ -8,6 +8,7 @@ export type Point = {
     lat: number;
     lng: number;
     title: string;
+    id?: string;
   };
 
 export type Points = Point[];

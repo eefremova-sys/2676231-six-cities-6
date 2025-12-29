@@ -19,3 +19,5 @@ export const getFavoriteOffersCount = createSelector(
   (offers: OfferType[]) => offers.filter((offer) => offer.isFavorite).length
 );
 
+export const getReviews = (state: RootState) => state.reviews.reviews;
+export const getReviewsLoadingStatus = (state: RootState) => state.reviews.isReviewsDataLoading;
