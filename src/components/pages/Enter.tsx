@@ -1,17 +1,19 @@
-import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { AppDispatch } from '../../store';
-import { loginAction } from '../../store/action';
+import { loginAction, changeCity } from '../../store/action';
 import { AuthStatus } from '../../const';
 import { getAuthorizationStatus } from '../../store/selectors';
+
+const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 function Enter(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const authStatus = useSelector(getAuthorizationStatus);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,10 +21,10 @@ function Enter(): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (authStatus === AuthStatus.Auth) {
+    if (authorizationStatus === AuthStatus.Auth) {
       navigate(AppRoute.Main);
     }
-  }, [authStatus, navigate]);
+  }, [authorizationStatus, navigate]);
 
   const handleEmailChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setEmail(evt.target.value);
@@ -34,12 +36,31 @@ function Enter(): JSX.Element {
     setError(null);
   };
 
+  const randomCity = useMemo(() => CITIES[Math.floor(Math.random() * CITIES.length)], []);
+
+  const validatePassword = (pwd: string): boolean => {
+    const hasLetter = /[a-zA-Z]/.test(pwd);
+    const hasDigit = /\d/.test(pwd);
+    return hasLetter && hasDigit;
+  };
+
+  const handleQuickCityClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(changeCity(randomCity));
+    navigate(AppRoute.Main);
+  };
+
   const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     setError(null);
 
     if (password.trim().length === 0) {
       setError('Password cannot be empty or contain only spaces');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError('Password must contain at least one letter and one digit');
       return;
     }
 
@@ -129,8 +150,8 @@ function Enter(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
+              <a className="locations__item-link" href="#" onClick={handleQuickCityClick}>
+                <span>{randomCity}</span>
               </a>
             </div>
           </section>
