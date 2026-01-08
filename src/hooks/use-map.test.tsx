@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import useMap from './useMap';
+import useMap from './use-map';
 import { City } from '../types';
 
 // Mock Leaflet

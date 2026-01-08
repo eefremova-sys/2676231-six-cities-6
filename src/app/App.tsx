@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Main from '../components/pages/Main';
-import Error from '../components/pages/Error';
+import Main from '../components/pages/main';
+import Error from '../components/pages/error';
 import { AppRoute } from '../const';
-import Enter from '../components/pages/Enter';
-import Fav from '../components/pages/Fav';
-import Offer from '../components/pages/Offer';
-import PrivateRoute from '../components/PrivateRoute';
+import Enter from '../components/pages/enter';
+import Fav from '../components/pages/fav';
+import Offer from '../components/pages/offer';
+import PrivateRoute from '../components/private-route';
 
 function App(): JSX.Element {
   return (

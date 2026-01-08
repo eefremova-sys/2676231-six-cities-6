@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
-import OfferCard from './OfferCard';
+import OfferCard from './offer-card';
 import { OfferType } from '../offer';
 
 const mockOffer: OfferType = {
