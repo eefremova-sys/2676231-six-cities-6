@@ -1,11 +1,11 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import Enter from './enter';
-import { AppRoute, AuthStatus } from '../../const';
+import { AuthStatus } from '../../const';
 import rootReducer from '../../store/reducer';
 
 const createMockStore = (initialState = {}) => configureStore({

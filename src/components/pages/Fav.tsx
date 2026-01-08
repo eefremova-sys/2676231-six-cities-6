@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useMemo, useCallback } from 'react';
 import { AppRoute, AuthStatus } from '../../const';
 import { OfferType } from '../../offer';
-import FavoriteCard from '../FavCard';
+import FavoriteCard from '../fav-card';
 import { AppDispatch } from '../../store';
 import { fetchFavoriteOffersAction, toggleFavoriteAction, logoutAction } from '../../store/action';
 import {
