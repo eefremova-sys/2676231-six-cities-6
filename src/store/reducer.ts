@@ -1,5 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import appProcess from './appProcess/appProcess';
+import appProcess from './appProcess/app-process';
 import offersProcess from './offersProcess/offersProcess';
 import userProcess from './userProcess/userProcess';
 import reviewsProcess from './reviewsProcess/reviewsProcess';
