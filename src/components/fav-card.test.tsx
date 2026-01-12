@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import FavoriteCard from './FavCard';
+import FavoriteCard from './fav-card';
 import { OfferType } from '../offer';
 
 const mockOffer: OfferType = {

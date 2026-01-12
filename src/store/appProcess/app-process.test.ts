@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import appProcess from './appProcess';
+import appProcess from './app-process';
 import { changeCity } from '../action';
 
 describe('app-process reducer', () => {
