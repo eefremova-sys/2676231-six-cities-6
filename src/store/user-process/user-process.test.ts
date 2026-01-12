@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import userProcess from './userProcess';
+import userProcess from './user-process';
 import { requireAuthorization, setUser, logout } from '../action';
 import { AuthStatus } from '../../const';
 import { User } from '../../user';

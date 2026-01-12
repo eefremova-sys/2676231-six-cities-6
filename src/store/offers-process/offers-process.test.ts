@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import offersProcess from './offersProcess';
+import offersProcess from './offers-process';
 import { loadOffers, setOffersDataLoading, setOffersDataError, updateOfferFavorite, updateOffer } from '../action';
 import { OfferType } from '../../offer';
 

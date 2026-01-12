@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import appProcess from './appProcess/app-process';
-import offersProcess from './offersProcess/offersProcess';
-import userProcess from './userProcess/userProcess';
-import reviewsProcess from './reviewsProcess/reviewsProcess';
+import appProcess from './app-process/app-process';
+import offersProcess from './offers-process/offers-process';
+import userProcess from './user-process/user-process';
+import reviewsProcess from './reviews-process/reviews-process';
 
 const rootReducer = combineReducers({
   app: appProcess,
